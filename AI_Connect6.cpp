@@ -66,7 +66,7 @@ int main()
 	bool FIRST_STEP = true;
 	srand(time(NULL));
 	/****************judge:Black_White**************/
-	cout<<"AI�謰(B/W) : ";
+	cout<<"AI方為(B/W) : ";
 	cin>>me;
 	
 	me = toupper(me[0]);
@@ -97,10 +97,10 @@ int main()
 	}	
 
 /****************playing chess**************/	
-	cout << "AI��: " << me << " , �ڤ�: " << rival << endl; 
+	cout << "AI方: " << me << " , 我方: " << rival << endl; 
 	for(;!END;)
 	{	
-		if(FIRST_STEP)  //�¤���U�@�� 
+		if(FIRST_STEP)  //黑方先下
 		{
 			if(me == "B") 
 			{
@@ -119,7 +119,7 @@ int main()
 		}
 		else
 		{
-			//������y�U������ 
+			//雙方輪流下兩顆棋 
 			if(me == "B") 
 			{
 				/* first */
@@ -216,7 +216,7 @@ void Strategy(int actLeft)
 	takeAction = myAction[(rand() % num)];
 	checkerboard[takeAction.i][takeAction.j] = me;
 	ourTeam.push_back(position(takeAction.i,takeAction.j));
-	cout<<"AI��: ( "<<alphabet[takeAction.i]<<" , "<<takeAction.j+1<<" )"<<"\n";
+	cout<<"AI方: ( "<<alphabet[takeAction.i]<<" , "<<takeAction.j+1<<" )"<<"\n";
 	//cout<<alphabet[searchArea.xLow]<<"-"<<alphabet[searchArea.xHeight]<<"/"<<searchArea.yLow+1<<"-"<<searchArea.yHeight+1<<endl;
 }
 
@@ -226,29 +226,29 @@ void rivalStrategy()
 	int x,y;
 	string x_s;
 	
-	cout<<"�ڤ�x (A-S) : ";
+	cout<<"我方x (A-S) : ";
 	cin>>x_s;
 	x_s = toupper(x_s[0]);
 	
 	if( alphabetChangeN.find(x_s) == alphabetChangeN.end())
 	{
-		cout<<"�п�J���T�d�� A-S : \n";
+		cout<<"請輸入正確範圍 A-S : \n";
 		return rivalStrategy();
 	}
 	
-	cout<<"�ڤ�y (1-19) : ";
+	cout<<"我方y (1-19) : ";
 	cin>>y;
 	
 	x = alphabetChangeN[x_s];	// the alphabet is directly changed to number,not need to sub 1 
 
 	if(	x < 0 || x >18  || y < 0 || y >19 )
 	{
-		cout<<"�п�J���T��m:\n ";
+		cout<<"請輸入正確位置:\n ";
 		return rivalStrategy();
 	}
 	if(checkerboard[x][y-1] != ".")
 	{
-		cout<<"��m�w�Q���ڡA�Э��s��J: \n";
+		cout<<"位置已被佔據，請重新輸入: \n";
 		return rivalStrategy();
 	}
 	checkerboard[x][y-1] = rival;
@@ -321,7 +321,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 		{
 			if(state[i][j] != ".")
 			{
-				//�s�� 
+				//連六  
 				if(j < 14)
 				{
 					if(state[i][j] == state[i][j+1] && state[i][j+1] == state[i][j+2] && state[i][j+2] == state[i][j+3] && state[i][j+3] == state[i][j+4] && state[i][j+4] == state[i][j+5])
@@ -334,10 +334,10 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/�止�� 
+				//雙/單迫著
 				if(j < 14 && j >= 1) 
 				{
-					//�s���l
+					//連五子
 					if(state[i][j] == state[i][j+1] && state[i][j+1] == state[i][j+2] && state[i][j+2] == state[i][j+3] && state[i][j+3] == state[i][j+4])
 					{
 						if(state[i][j-1] == "." && (state[i][j+5] == "." || state[i][j+5] == state[i][j]))
@@ -371,7 +371,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 				}
 				if(j < 14 && j >= 2) 
 				{
-					//�s�|�l
+					//連四子
 					if(state[i][j] == state[i][j+1] && state[i][j+1] == state[i][j+2] && state[i][j+2] == state[i][j+3])
 					{
 						if(state[i][j-1] == "." && (state[i][j-2] == "." || state[i][j-2] == state[i][j]) && (state[i][j+4] == "." || state[i][j+4] == state[i][j]) &&  (state[i][j+5] == "." || state[i][j+5] == state[i][j]))
@@ -393,7 +393,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���T 
+				//活/死三 
 				if(j < 14 && j >= 3)
 				{
 					if(state[i][j] == state[i][j+1] && state[i][j+1] == state[i][j+2])
@@ -417,7 +417,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���G
+				//活/死二
 				if(j < 14 && j >= 4)
 				{
 					if(state[i][j] == state[i][j+1])
@@ -441,7 +441,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���@ 
+				//活/死一 
 				if(j < 14 && j >= 5)
 				{
 					if(state[i][j-1] == "." && (state[i][j-2] == "." || state[i][j-2] == state[i][j]) && (state[i][j-3] == "." || state[i][j-3] == state[i][j]) && (state[i][j-4] == "." || state[i][j-4] == state[i][j]) && (state[i][j-5] == "." || state[i][j-5] == state[i][j]) && state[i][j+1] == "." && (state[i][j+2] == "." || state[i][j+2] == state[i][j]) && (state[i][j+3] == "." || state[i][j+3] == state[i][j]) &&  (state[i][j+4] == "." || state[i][j+4] == state[i][j]) && (state[i][j+5] == "." || state[i][j+5] == state[i][j]))
@@ -486,7 +486,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 		{
 			if(state[j][i] != ".")
 			{
-				//�s�� 
+				//連六 
 				if(j < 14)
 				{
 					if(state[j][i] == state[j+1][i] && state[j+1][i] == state[j+2][i] && state[j+2][i] == state[j+3][i] && state[j+3][i] == state[j+4][i] && state[j+4][i] == state[j+5][i])
@@ -499,10 +499,10 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/�止�� 
+				//雙/單迫著 
 				if(j < 14 && j >= 1)
 				{
-					//�s���l 
+					//連五子 
 					if(state[j][i] == state[j+1][i] && state[j+1][i] == state[j+2][i] && state[j+2][i] == state[j+3][i] && state[j+3][i] == state[j+4][i])
 					{
 						if(state[j-1][i] == "." && (state[j+5][i] == "." || state[j+5][i] == state[j][i]))
@@ -536,7 +536,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 				}
 				if(j < 14 && j >= 2)
 				{
-					//�s�|�l 
+					//連四子
 					if(state[j][i] == state[j+1][i] && state[j+1][i] == state[j+2][i] && state[j+2][i] == state[j+3][i])
 					{
 						if(state[j-1][i] == "." && (state[j-2][i] == "." || state[j-2][i] == state[j][i]) && (state[j+4][i] == "." || state[j+4][i] == state[j][i]) &&  (state[j+5][i] == "." || state[j+5][i] == state[j][i]))
@@ -558,7 +558,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���T 
+				//活/死三 
 				if(j < 14 && j >= 3)
 				{
 					if(state[j][i] == state[j+1][i] && state[j+1][i] == state[j+2][i])
@@ -582,7 +582,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���G
+				//活/死二
 				if(j < 14 && j >= 4)
 				{
 					if(state[j][i] == state[j+1][i])
@@ -605,7 +605,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						}
 					}
 				}
-				//��/���@ 
+				//活/死一
 				if(j < 14 && j >= 5)
 				{
 					if(state[j-1][i] == "." && (state[j-2][i] == "." || state[j-2][i] == state[j][i]) && (state[j-3][i] == "." || state[j-3][i] == state[j][i]) && (state[j-4][i] == "." || state[j-4][i] == state[j][i]) && (state[j-5][i] == "." || state[j-5][i] == state[j][i]) && state[j+1][i] == "." && (state[j+2][i] == "." || state[j+2][i] == state[j][i]) && (state[j+3][i] == "." || state[j+3][i] == state[j][i]) &&  (state[j+4][i] == "." || state[j+4][i] == state[j][i]) && (state[j+5][i] == "." || state[j+5][i] == state[j][i]))
@@ -658,7 +658,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 		{
 			if(state[i+k][j+k] != ".")
 			{
-				//�s�� 
+				//連六
 				if((i+k) < 14 && (j+k) < 14)
 				{
 					if(state[i+k][j+k] == state[i+1+k][j+1+k] && state[i+1+k][j+1+k] == state[i+2+k][j+2+k] && state[i+2+k][j+2+k] == state[i+3+k][j+3+k] && state[i+3+k][j+3+k] == state[i+4+k][j+4+k] && state[i+4+k][j+4+k] == state[i+5+k][j+5+k])
@@ -671,10 +671,10 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/�止�� 
+				//雙/單迫著 
 				if((i+k) < 14 && (j+k) < 14 && (i+k) >= 1 && (j+k) >= 1) 
 				{
-					//�s���l
+					//連五子
 					if(state[i+k][j+k] == state[i+1+k][j+1+k] && state[i+1+k][j+1+k] == state[i+2+k][j+2+k] && state[i+2+k][j+2+k] == state[i+3+k][j+3+k] && state[i+3+k][j+3+k] == state[i+4+k][j+4+k])
 					{
 						if(state[i-1+k][j-1+k] == "." && (state[i+5+k][j+5+k] == "." || state[i+5+k][j+5+k] == state[i+k][j+k]))
@@ -708,7 +708,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 				}
 				if((i+k) < 14 && (j+k) < 14 && (i+k) >= 2 && (j+k) >= 2) 
 				{
-					//�s�|�l
+					//連四子
 					if(state[i+k][j+k] == state[i+1+k][j+1+k] && state[i+1+k][j+1+k] == state[i+2+k][j+2+k] && state[i+2+k][j+2+k] == state[i+3+k][j+3+k])
 					{
 						if(state[i-1+k][j-1+k] == "." && (state[i-2+k][j-2+k] == "." || state[i-2+k][j-2+k] == state[i+k][j+k]) && (state[i+4+k][j+4+k] == "." || state[i+4+k][j+4+k] == state[i+k][j+k]) &&  (state[i+5+k][j+5+k] == "." || state[i+5+k][j+5+k] == state[i+k][j+k]))
@@ -730,7 +730,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���T 
+				//活/死三
 				if((i+k) < 14 && (j+k) < 14 && (i+k) >= 3 && (j+k) >= 3)
 				{
 					if(state[i+k][j+k] == state[i+1+k][j+1+k] && state[i+1+k][j+1+k] == state[i+2+k][j+2+k])
@@ -754,7 +754,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���G
+				//活/死二
 				if((i+k) < 14 && (j+k) < 14 && (i+k) >= 4 && (j+k) >= 4)
 				{
 					if(state[i+k][j+k] == state[i+1+k][j+1+k])
@@ -778,7 +778,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���@ 
+				//活/死一
 				if((i+k) < 14 && (j+k) < 14 && (i+k) >= 5 && (j+k) >= 5)
 				{
 					if(state[i-1+k][j-1+k] == "." && (state[i-2+k][j-2+k] == "." || state[i-2+k][j-2+k] == state[i+k][j+k]) && (state[i-3+k][j-3+k] == "." || state[i-3+k][j-3+k] == state[i+k][j+k]) && (state[i-4+k][j-4+k] == "." || state[i-4+k][j-4+k] == state[i+k][j+k]) && (state[i-5+k][j-5+k] == "." || state[i-5+k][j-5+k] == state[i+k][j+k]) && state[i+1+k][j+1+k] == "." && (state[i+2+k][j+2+k] == "." || state[i+2+k][j+2+k] == state[i+k][j+k]) && (state[i+3+k][j+3+k] == "." || state[i+3+k][j+3+k] == state[i+k][j+k]) &&  (state[i+4+k][j+4+k] == "." || state[i+4+k][j+4+k] == state[i+k][j+k]) &&  (state[i+5+k][j+5+k] == "." || state[i+5+k][j+5+k] == state[i+k][j+k]))
@@ -833,7 +833,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 		{
 			if(state[i-k][j+k] != ".")
 			{
-				//�s�� 
+				//連六
 				if((i-k) > 4 && (j+k) < 14)
 				{
 					if(state[i-k][j+k] == state[i-1-k][j+1+k] && state[i-1-k][j+1+k] == state[i-2-k][j+2+k] && state[i-2-k][j+2+k] == state[i-3-k][j+3+k] && state[i-3-k][j+3+k] == state[i-4-k][j+4+k] && state[i-4-k][j+4+k] == state[i-5-k][j+5+k])
@@ -846,10 +846,10 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/�止�� 
+				//雙/單迫著  
 				if((i-k) > 4 && (j+k) < 14 && (i-k) < 18 && (j+k) >= 1) 
 				{
-					//�s���l
+					//連五子
 					if(state[i-k][j+k] == state[i-1-k][j+1+k] && state[i-1-k][j+1+k] == state[i-2-k][j+2+k] && state[i-2-k][j+2+k] == state[i-3-k][j+3+k] && state[i-3-k][j+3+k] == state[i-4-k][j+4+k])
 					{
 						if(state[i+1-k][j-1+k] == "." && (state[i-5-k][j+5+k] == "." || state[i-5-k][j+5+k] == state[i-k][j+k]))
@@ -883,7 +883,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 				}
 				if((i-k) > 4 && (j+k) < 14 && (i-k) < 17 && (j+k) >= 2) 
 				{
-					//�s�|�l
+					//連四子
 					if(state[i-k][j+k] == state[i-1-k][j+1+k] && state[i-1-k][j+1+k] == state[i-2-k][j+2+k] && state[i-2-k][j+2+k] == state[i-3-k][j+3+k])
 					{
 						if(state[i+1-k][j-1+k] == "." && (state[i+2-k][j-2+k] == "." || state[i+2-k][j-2+k] == state[i-k][j+k]) && (state[i-4-k][j+4+k] == "." || state[i-4-k][j+4+k] == state[i-k][j+k]) &&  (state[i-5-k][j+5+k] == "." || state[i-5-k][j+5+k] == state[i-k][j+k]))
@@ -905,7 +905,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���T 
+				//活/死三
 				if((i-k) > 4 && (j+k) < 14 && (i-k) < 16 && (j+k) >= 3)
 				{
 					if(state[i-k][j+k] == state[i-1-k][j+1+k] && state[i-1-k][j+1+k] == state[i-2-k][j+2+k])
@@ -929,7 +929,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���G
+				//活/死二
 				if((i-k) > 4 && (j+k) < 14 && (i-k) < 15 && (j+k) >= 4)
 				{
 					if(state[i-k][j+k] == state[i-1-k][j+1+k])
@@ -953,7 +953,7 @@ int Utility(string **state, checkSpace area,int actLeft)
 						continue;
 					}
 				}
-				//��/���@ 
+				//活/死一
 				if((i-k) > 4 && (j+k) < 14 && (i-k) < 14 && (j+k) >= 5)
 				{
 					if(state[i+1-k][j-1+k] == "." && (state[i+2-k][j-2+k] == "." || state[i+2-k][j-2+k] == state[i-k][j+k]) && (state[i+3-k][j-3+k] == "." || state[i+3-k][j-3+k] == state[i-k][j+k]) && (state[i+4-k][j-4+k] == "." || state[i+4-k][j-4+k] == state[i-k][j+k]) && (state[i+5-k][j-5+k] == "." || state[i+5-k][j-5+k] == state[i-k][j+k]) && state[i-1-k][j+1+k] == "." && (state[i-2-k][j+2+k] == "." || state[i-2-k][j+2+k] == state[i-k][j+k]) && (state[i-3-k][j+3+k] == "." || state[i-3-k][j+3+k] == state[i-k][j+k]) &&  (state[i-4-k][j+4+k] == "." || state[i-4-k][j+4+k] == state[i-k][j+k]) &&  (state[i-5-k][j+5+k] == "." || state[i-5-k][j+5+k] == state[i-k][j+k]))
@@ -1180,5 +1180,3 @@ void printCheckerboard()
 		cout<<"\n";
 	}
 }
-
-
