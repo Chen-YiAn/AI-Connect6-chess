@@ -1149,9 +1149,9 @@ void judge_printResult()
 		if(judgeEnd() !="continue")
 		{
 			if(judgeEnd() =="win")
-				cout<<"------AI��ӧQ!!!------\n";
+				cout<<"------AI方勝利!!------\n";
 			else
-				cout<<"------�ڤ�ӧQ!!!------\n";
+				cout<<"------我方勝利!!------\n";
 			END = true;
 		}
 }
